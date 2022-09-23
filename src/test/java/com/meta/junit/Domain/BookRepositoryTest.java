@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @DataJpaTest
@@ -19,7 +20,24 @@ public class BookRepositoryTest {
     // 1. 책 등록
     @Test
     public void 책_등록() {
-        log.info("책_등록() 테스트");
+        log.info("책_등록() 테스트 실행");
+        // given (데이터 준비)
+        String title = "junit5";
+        String author = "als";
+
+        Book book = Book.builder()
+                .title(title)
+                .author(author)
+                .build();
+
+        // when  (테스트 실행)
+        Book bookPS = bookRepository.save(book);
+
+
+        // then  (테스트 검증) 기대 값 / 실제 값
+        assertEquals(title, bookPS.getTitle());
+        assertEquals(author, bookPS.getAuthor());
+
     }
 
     // 2. 책 목록보기
