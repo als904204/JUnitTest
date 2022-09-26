@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -39,6 +40,12 @@ public class BookService {
     }
 
     // 3. 책 한권 조회
+    public BookResponseDto 책_조회(Long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Not Exists the book : " + id));
+        return new BookResponseDto().toDto(book);
+    }
+
 
     // 4. 책 삭제
 
