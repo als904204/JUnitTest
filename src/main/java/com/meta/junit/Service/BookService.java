@@ -51,8 +51,16 @@ public class BookService {
     @Transactional(rollbackFor = RuntimeException.class)
     public void 책_삭제(Long id) {
        bookRepository.deleteById(id);
-
     }
 
     // 5. 책 수정
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void 책_수정(Long id, BookResponseDto dto) {
+        Book bookOP = bookRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Not Exists the book :  + id)")
+        );
+
+        bookOP.update(dto.getTitle(), dto.getAuthor());
+
+    }
 }
