@@ -105,9 +105,9 @@ public class BookRepositoryTest {
 
     }
 
-    // 4. 책 수정
 
-    // 5. 책 삭제
+
+    // 4. 책 삭제
     @Sql("classpath:db/tableInit.sql")
     @Test
     public void 책_삭제() {
@@ -121,6 +121,46 @@ public class BookRepositoryTest {
 
         // then
         assertFalse(bookRepository.findById(1L).isPresent()); // 값이 false 이어야 검증 성공
+    }
+
+    // 5. 책 수정
+    @Sql("classpath:db/tableInit.sql")
+    @Test
+    public void 책_수정() {
+
+        // given
+        Long id = 1L;
+        String title = "junit5";
+        String author = "kmw2";
+        Book book = new Book(id, title, author);
+
+        log.info("책_업데이트_전()");
+        bookRepository.findAll().stream()
+                .forEach(b -> {
+                    System.out.println(b.getId());
+                    System.out.println(b.getTitle());
+                    System.out.println(b.getAuthor());
+                    System.out.println("================");
+                });
+
+        // when
+        Book bookPS = bookRepository.save(book); // 이미 1L 이 있기 때문에 save 가 아닌 update 쿼리문 됨
+
+        log.info("책_업데이트_후()");
+        bookRepository.findAll().stream()
+                .forEach(b -> {
+                    System.out.println(b.getId());
+                    System.out.println(b.getTitle());
+                    System.out.println(b.getAuthor());
+                    System.out.println("================");
+                });
+
+        log.info("책_업데이트_객체()");
+        System.out.println(bookPS.getId());
+        System.out.println(bookPS.getTitle());
+        System.out.println(bookPS.getAuthor());
+        System.out.println("=====================");
+
     }
 
 }
