@@ -7,12 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest
@@ -89,6 +89,7 @@ public class BookRepositoryTest {
 
 
     // 3. 책 한건 조회
+    @Sql("classpath:db/tableInit.sql")
     @Test
     public void 책_한건_조회() {
         // given (데이터 준비)
@@ -107,6 +108,7 @@ public class BookRepositoryTest {
     // 4. 책 수정
 
     // 5. 책 삭제
+    @Sql("classpath:db/tableInit.sql")
     @Test
     public void 책_삭제() {
         log.info("책_삭제()");
@@ -118,13 +120,7 @@ public class BookRepositoryTest {
         bookRepository.deleteById(id);
 
         // then
-        Optional<Book> bookPS = bookRepository.findById(1L);
-
-        if (bookPS.isPresent()) {
-
-        } else {
-
-        }
+        assertFalse(bookRepository.findById(1L).isPresent()); // 값이 false 이어야 검증 성공
     }
 
 }
