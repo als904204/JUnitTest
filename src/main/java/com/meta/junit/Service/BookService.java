@@ -48,6 +48,11 @@ public class BookService {
 
 
     // 4. 책 삭제
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void 책_삭제(Long id) {
+       bookRepository.deleteById(id);
+
+    }
 
     // 5. 책 수정
 }
